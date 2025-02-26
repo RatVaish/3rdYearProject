@@ -8,6 +8,7 @@ import spacy
 import re
 import torch
 from transformers import AutoTokenizer, AutoModel
+import ast
 
 
 #-----Classes-----
@@ -19,95 +20,135 @@ class DataHandler:
         else:
             raise ValueError("Database path does not exist")
 
-    def fetch_code(self, github_api_url):
+    class ProblemStatements:
+        def __init__(self, df):
+            self.df = df
 
-        '''
-        Extract all project files from a GitHub repository tarball url at a specific
-        commit hash. Storing the contents in a dictionary.
+        def fetch(self):
+            return self.df["problem_statements"]
 
-        :param github_api_url: (str) The  GitHub API url for the tarball of a
-                                repository at a specific commit hash.
-        :return              : (dict) A dictionary where keys are file paths and
-                                values are the contents of the files.
-        '''
+        @staticmethod
+        def fetch_problem_keywords(problem_statement):
+            '''
+            Extracts keywords (nouns, verbs, etc.) from a problem statement
+            using spaCy's NLP capabilities and returns them as a list.
 
-        # Setting up my PAT
-        GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
-        HEADERS = {
-            'Authorization': f"token {GITHUB_TOKEN}",
-            "User-Agent": "python-requests"
-        }
+            :param problem_statement: (str) Problem description from SWE Bench
+            :return                 : (list) List of keywords extracted from problem statement
+            '''
 
-        response = requests.get(github_api_url, headers=HEADERS, stream=True)
+            if not isinstance(problem_statement, str):
+                return []
 
-        if response.status_code == 200:
-            files_content = {}
-            with tarfile.open(fileobj=io.BytesIO(response.content), mode="r:gz") as tar:
-                for member in tar.getmembers():
-                    if member.isfile():
-                        try:
-                            file_content = tar.extractfile(member).read().decode("utf-8")
-                            files_content[member.name] = file_content
-                        except UnicodeDecodeError:
-                            continue
-            return files_content
-        else:
-            print(f"Failed to retrieve the tarball, Status code: {response.status_code}")
-            return {}
+            doc = nlp(problem_statement)
+            keywords = {token.text.lower() for token in doc if token.pos_ in ["NOUN"]}
 
-    def fetch_filenames(self, github_api_url):
+            return list(keywords)
 
-        '''
-        Extract all project filenames from a GitHub repository tarball url at a specific
-        commit hash. Storing the contents as a list.
+        @staticmethod
+        def extract_function_name(problem_statement):
 
-        :param github_api_url: (str) The  GitHub API url for the tarball
-                                of a project at a specific commit hash.
-        :return              : (list) List of filenames in the repository.
-        '''
+            '''
+            Extracts potential function names form the problem statement based on
+            custom logic.
 
-        # Setting up my PAT
-        GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
-        HEADERS = {
-            'Authorization': f"token {GITHUB_TOKEN}",
-            "User-Agent": "python-requests"
-        }
+            :param problem_statement: (str) Problem description from SWE Bench
+            :return                 : (list) List of function names extracted(or potential matches)
+            '''
 
-        response = requests.get(github_api_url, headers=HEADERS, stream=True)
+            code_pattern = r"```(.*?)```"
+            matches = re.findall(code_pattern, problem_statement, re.DOTALL)
 
-        if response.status_code == 200:
-            filenames = []
-            with tarfile.open(fileobj=io.BytesIO(response.content), mode="r:gz") as tar:
-                for member in tar.getmembers():
-                    if member.isfile():
-                        filenames.append(member.name)
-            return filenames
-        else:
-            print(f"Failed to retrieve the tarball, Status code: {response.status_code}")
-            return []
+            function_pattern = r"\b([a-zA-Z_][a-zA-Z0-9_]*)\s?\("
+            function_names = []
 
-    def fetch_problems(self):
-        return self.df["problem_statements"]
+            for code in matches:
+                function_names.extend(re.findall(function_pattern, code))
 
-    def fetch_problem_keywords(self, problem_statement):
-        '''
-        Extracts keywords (nouns, verbs, etc.) from a problem statement
-        using spaCy's NLP capabilities and returns them as a list.
+            return function_names
 
-        :param problem_statement: (str) Problem description from SWE Bench
-        :return                 : (list) List of keywords extracted from problem statement
-        '''
+    class GithubAPIUrls:
+        def __init__(self, df):
+            self.df = df
 
-        if not isinstance(problem_statement, str):
-            return []
+        def fetch(self):
+            return self.df["github_api_url"]
 
-        doc = nlp(problem_statement)
-        keywords = {token.text.lower() for token in doc if token.pos_ in ["NOUN"]}
+        @staticmethod
+        def fetch_code(github_api_url):
 
-        return list(keywords)
+            '''
+            Extract all project files from a GitHub repository tarball url at a specific
+            commit hash. Storing the contents in a dictionary.
 
-    def fetch_answers(self):
-        return self.df["patch_files"]
+            :param github_api_url: (str) The  GitHub API url for the tarball of a
+                                    repository at a specific commit hash.
+            :return              : (dict) A dictionary where keys are file paths and
+                                    values are the contents of the files.
+            '''
+
+            # Setting up my PAT
+            GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+            HEADERS = {
+                'Authorization': f"token {GITHUB_TOKEN}",
+                "User-Agent": "python-requests"
+            }
+
+            response = requests.get(github_api_url, headers=HEADERS, stream=True)
+
+            if response.status_code == 200:
+                files_content = {}
+                with tarfile.open(fileobj=io.BytesIO(response.content), mode="r:gz") as tar:
+                    for member in tar.getmembers():
+                        if member.isfile():
+                            try:
+                                file_content = tar.extractfile(member).read().decode("utf-8")
+                                files_content[member.name] = file_content
+                            except UnicodeDecodeError:
+                                continue
+                return files_content
+            else:
+                print(f"Failed to retrieve the tarball, Status code: {response.status_code}")
+                return {}
+
+        @staticmethod
+        def fetch_filenames(github_api_url):
+
+            '''
+            Extract all project filenames from a GitHub repository tarball url at a specific
+            commit hash. Storing the contents as a list.
+
+            :param github_api_url: (str) The  GitHub API url for the tarball
+                                    of a project at a specific commit hash.
+            :return              : (list) List of filenames in the repository.
+            '''
+
+            # Setting up my PAT
+            GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+            HEADERS = {
+                'Authorization': f"token {GITHUB_TOKEN}",
+                "User-Agent": "python-requests"
+            }
+
+            response = requests.get(github_api_url, headers=HEADERS, stream=True)
+
+            if response.status_code == 200:
+                filenames = []
+                with tarfile.open(fileobj=io.BytesIO(response.content), mode="r:gz") as tar:
+                    for member in tar.getmembers():
+                        if member.isfile():
+                            filenames.append(member.name)
+                return filenames
+            else:
+                print(f"Failed to retrieve the tarball, Status code: {response.status_code}")
+                return []
+
+    class PatchFiles:
+        def __init__(self, df):
+            self.df = df
+
+        def fetch(self):
+            return self.df["patch_files"]
 
 
 class SearchTools:
@@ -183,18 +224,63 @@ class SearchTools:
             else:
                 return None
 
+    class ASTRetriever:
+        def __init__(self, file_contents):
+            self.file_contents = file_contents
+
+        def search(self, function_name):
+
+            '''
+            Searches for a specific function defined in indexed file contents.
+            Iterates through file contents and looks for function definitions
+            matching the provided function name.
+
+            :param function_name: (str) The function name to search for.
+            :return             : (dict) A dictionary where keys are filenames and
+                                  values are the contents of the files.
+            '''
+
+            results = {}
+            for filename, content in self.file_contents.items():
+                try:
+                    tree = ast.parse(content)
+                    for node in ast.walk(tree):
+                        if isinstance(node, ast.FunctionDef):
+                            if node.name == function_name:
+                                results[filename] = content
+                                break
+                except SyntaxError:
+                    continue
+            return results
+
 
 class TestingResults:
     pass
 
 
 #-----Body-----
+nlp = spacy.load("en_core_web_sm")
 data_handler = DataHandler()
 
+for idx, row in data_handler.df.iterrows():
+    github_api_url = row["github_api_url"]
+    problem_statement = row["problem_statement"]
+
+    file_contents = data_handler.GithubAPIUrls.fetch_code(github_api_url)
+    ast_retriever = SearchTools.ASTRetriever(file_contents)
+
+    function_name = data_handler.ProblemStatements.extract_function_name(problem_statement)
+
+    matching_files = ast_retriever.search(function_name)
+
+    print(f"Search results for problem {idx}: {matching_files}")
+
+
 #--Regex Search--
-nlp = spacy.load("en_core_web_sm")
+'''
 regex_retriever = SearchTools.RegexRetriever()
 
+results = []
 for idx, row in data_handler.df.iterrows():
     github_api_url = row["github_api_url"]
 
@@ -210,7 +296,22 @@ for idx, row in data_handler.df.iterrows():
     regex_pattern = r"\b(" + "|".join(map(re.escape, keywords)) + r")\b"
     regex_results = regex_retriever.search(regex_pattern)
 
+    result_entry = {
+        "problem_index": idx,
+        "problem_statement": row["problem_statement"],
+        "regex_results": regex_results if regex_results else "No matches"
+    }
+    
+    results.append(result_entry)
+    
     if regex_results:
         print(f"Regex search results for problem {idx}: {regex_results}")
     else:
         print(f"No matches found for problem {idx}.")
+        
+results_df = pd.DataFrame(results)
+
+results_df.to_csv("regex_search_results.csv", index=False)
+print("Results written to regex_search_results.csv")
+print(results_df.head())
+'''
