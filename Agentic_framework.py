@@ -4,6 +4,7 @@ import os
 import requests
 import tarfile
 import io
+import spacy
 import re
 import torch
 from transformers import AutoTokenizer, AutoModel
@@ -54,8 +55,56 @@ class DataHandler:
             print(f"Failed to retrieve the tarball, Status code: {response.status_code}")
             return {}
 
+    def fetch_filenames(self, github_api_url):
+
+        '''
+        Extract all project filenames from a GitHub repository tarball url at a specific
+        commit hash. Storing the contents as a list.
+
+        :param github_api_url: (str) The  GitHub API url for the tarball
+                                of a project at a specific commit hash.
+        :return              : (list) List of filenames in the repository.
+        '''
+
+        # Setting up my PAT
+        GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+        HEADERS = {
+            'Authorization': f"token {GITHUB_TOKEN}",
+            "User-Agent": "python-requests"
+        }
+
+        response = requests.get(github_api_url, headers=HEADERS, stream=True)
+
+        if response.status_code == 200:
+            filenames = []
+            with tarfile.open(fileobj=io.BytesIO(response.content), mode="r:gz") as tar:
+                for member in tar.getmembers():
+                    if member.isfile():
+                        filenames.append(member.name)
+            return filenames
+        else:
+            print(f"Failed to retrieve the tarball, Status code: {response.status_code}")
+            return []
+
     def fetch_problems(self):
         return self.df["problem_statements"]
+
+    def fetch_problem_keywords(self, problem_statement):
+        '''
+        Extracts keywords (nouns, verbs, etc.) from a problem statement
+        using spaCy's NLP capabilities and returns them as a list.
+
+        :param problem_statement: (str) Problem description from SWE Bench
+        :return                 : (list) List of keywords extracted from problem statement
+        '''
+
+        if not isinstance(problem_statement, str):
+            return []
+
+        doc = nlp(problem_statement)
+        keywords = {token.text.lower() for token in doc if token.pos_ in ["NOUN"]}
+
+        return list(keywords)
 
     def fetch_answers(self):
         return self.df["patch_files"]
@@ -104,7 +153,7 @@ class SearchTools:
         def index_code(self, file_contents):
 
             '''
-            Indexes the code files by embedding their contents using the specified
+            Indexes the filenames by embedding their contents using the specified
             embedding model.
 
             :param file_contents: (dict) The dictionary where keys are filenames and
@@ -117,18 +166,22 @@ class SearchTools:
         def search(self, query):
 
             '''
-            Searches indexed code files for matches using regular expression.
+            Searches indexed filenames for matches using regular expression.
 
             :param query: (str) The regular expression query to search for
-            :return     : (dict) A dictionary where keys are filenames and
-                          the values are the matched files to the regex query.
+            :return     : (str or None) The most relevant filename or None if no matches
             '''
 
-            matches = {}
-            for filename, file_data in self.indexed_files.items():
-                if re.search(query, file_data):
-                    matches[filename] = file_data
-            return matches
+            matches = {filename: len(re.findall(query, filename)) for filename in self.indexed_files}
+
+            # Filter out filenames with no matches
+            matches = {filename: count for filename, count in matches.items() if count > 0}
+
+            if matches:
+                # Return the filename with the highest match count
+                return max(matches, key=matches.get)
+            else:
+                return None
 
 
 class TestingResults:
@@ -136,15 +189,28 @@ class TestingResults:
 
 
 #-----Body-----
-regex_retriever = SearchTools.RegexRetriever()
 data_handler = DataHandler()
+
+#--Regex Search--
+nlp = spacy.load("en_core_web_sm")
+regex_retriever = SearchTools.RegexRetriever()
 
 for idx, row in data_handler.df.iterrows():
     github_api_url = row["github_api_url"]
 
-    file_contents = data_handler.fetch_code(github_api_url)
-    regex_retriever.index_code(file_contents)
+    filenames = data_handler.fetch_filenames(github_api_url)
+    regex_retriever.index_code(filenames)
 
-    query = re.escape(row["problem_statement"])
-    regex_results = regex_retriever.search(query)
-    print(f"Regex search results for problem {idx}: {regex_results}")
+    keywords = data_handler.fetch_problem_keywords(row["problem_statement"])
+
+    if not keywords:
+        print(f"No keywords extracted for problem {idx}, skipping search.")
+        continue
+
+    regex_pattern = r"\b(" + "|".join(map(re.escape, keywords)) + r")\b"
+    regex_results = regex_retriever.search(regex_pattern)
+
+    if regex_results:
+        print(f"Regex search results for problem {idx}: {regex_results}")
+    else:
+        print(f"No matches found for problem {idx}.")
