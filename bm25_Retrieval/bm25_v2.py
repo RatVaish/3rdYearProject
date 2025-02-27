@@ -48,7 +48,7 @@ def extract_github_files(github_api_url):
         return {}
 
 
-df = pd.read_csv('cleaned_data.csv')
+df = pd.read_csv('../Dev/cleaned_data.csv')
 
 df["extracted_files"] = df["github_api_url"].apply(extract_github_files)
 

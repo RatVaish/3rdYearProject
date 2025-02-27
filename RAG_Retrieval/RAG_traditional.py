@@ -107,7 +107,7 @@ def similarity_search(problem_statement, github_files):
 
 
 #------Body------
-df = pd.read_csv('cleaned_data.csv')
+df = pd.read_csv('../Dev/cleaned_data.csv')
 
 # This code runs RAG for the first element of the DataFrame
 '''
