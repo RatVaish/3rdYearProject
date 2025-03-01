@@ -26,13 +26,13 @@ class DataHandler:
 
         @staticmethod
         def fetch_problem_keywords(problem_statement):
-            '''
+            """
             Extracts keywords (nouns, verbs, etc.) from a problem statement
             using spaCy's NLP capabilities and returns them as a list.
 
             :param problem_statement: (str) Problem description from SWE Bench
             :return                 : (list) List of keywords extracted from problem statement
-            '''
+            """
 
             if not isinstance(problem_statement, str):
                 return []
@@ -45,24 +45,37 @@ class DataHandler:
         @staticmethod
         def extract_function_name(problem_statement):
 
-            '''
-            Extracts potential function names form the problem statement based on
-            custom logic.
+            """
+            Extracts function names form the problem statement using python style
+            function calls and class names.
 
             :param problem_statement: (str) Problem description from SWE Bench
-            :return                 : (list) List of function names extracted(or potential matches)
-            '''
+            :return                 : (set) Extracted function and class names.
+            """
 
-            code_pattern = r"```(.*?)```"
-            matches = re.findall(code_pattern, problem_statement, re.DOTALL)
+            function_names = re.findall(r'([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', problem_statement)
+            class_names = re.findall(r'\b[A-Z][a-zA-Z0-9_]*\b', problem_statement)
 
-            function_pattern = r"\b([a-zA-Z_][a-zA-Z0-9_]*)\s?\("
-            function_names = []
+            return set(function_names + class_names)
 
-            for code in matches:
-                function_names.extend(re.findall(function_pattern, code))
+        @staticmethod
+        def preprocess_problem(problem_statement):
 
-            return function_names
+            """
+            Extracts the useful parts of the problem statement keeping descriptions
+            and code snippets, while removing examples and formatting.
+
+            :param problem_statement: (str) Problem description from SWE Bench
+            :return                 : (str) Processed problem statement
+            """
+
+            description = re.split(r'```python', problem_statement, maxsplit=1)[0].strip()
+            code_snippets = re.findall(r'```python\n(.*?)\n```', problem_statement, re.DOTALL)
+            code = "\n".join(code_snippets).strip()
+
+            processed_text = f"{description}\n\n{code}"
+
+            return processed_text
 
     class GithubAPIUrls:
         def __init__(self, df):
@@ -74,7 +87,7 @@ class DataHandler:
         @staticmethod
         def fetch_code(github_api_url):
 
-            '''
+            """
             Extract all project files from a GitHub repository tarball url at a specific
             commit hash. Storing the contents in a dictionary.
 
@@ -82,7 +95,7 @@ class DataHandler:
                                     repository at a specific commit hash.
             :return              : (dict) A dictionary where keys are file paths and
                                     values are the contents of the files.
-            '''
+            """
 
             # Setting up my PAT
             GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
@@ -111,14 +124,14 @@ class DataHandler:
         @staticmethod
         def fetch_filenames(github_api_url):
 
-            '''
+            """
             Extract all project filenames from a GitHub repository tarball url at a specific
             commit hash. Storing the contents as a list.
 
             :param github_api_url: (str) The  GitHub API url for the tarball
                                     of a project at a specific commit hash.
             :return              : (list) List of filenames in the repository.
-            '''
+            """
 
             # Setting up my PAT
             GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
