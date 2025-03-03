@@ -96,7 +96,7 @@ class CodeRetrievalAgent:
     def run(self, index: int) -> Optional[str]:
         code_snippets = self.code_snippets[index]
 
-        best_search_method = self.decide_best_search
+        best_search_method = self.decide_best_search()
 
         search_tool = self.get_search_tools(best_search_method, file_contents=code_snippets)
         results = search_tool.search(code_snippets)
