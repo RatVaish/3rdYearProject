@@ -1,8 +1,8 @@
 #-----Imports-----
 import openai
 import os
-from data_handler import DataHandler
-from search_tools import SearchTools
+from .data_handler import DataHandler
+from .search_tools import SearchTools
 from typing import Optional, List
 
 
