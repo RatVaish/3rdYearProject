@@ -7,9 +7,11 @@ from transformers import AutoTokenizer, AutoModel
 import torch
 import numpy as np
 import faiss
+from dotenv import load_dotenv
 import os
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+load_dotenv("keys.env")
 
 # Initialize model and tokenizer for CodeBERT
 tokenizer = AutoTokenizer.from_pretrained('microsoft/codebert-base')
@@ -47,7 +49,6 @@ def extract_github_files(github_api_url):
                         file_content = tar.extractfile(member).read().decode("utf-8")
                         files_content[member.name] = file_content
                     except UnicodeDecodeError:
-                        print(f"Skipping non-text file {member.name}")
                         continue
         return files_content
     else:
@@ -107,7 +108,7 @@ def similarity_search(problem_statement, github_files):
 
 
 #------Body------
-df = pd.read_csv('../Dev/cleaned_data.csv')
+df = pd.read_csv('cleaned_data_RAG.csv')
 
 # This code runs RAG for the first element of the DataFrame
 '''
@@ -124,7 +125,10 @@ print(f"Most relevant file: {best_match_file}")
 print("-" * 50)
 '''
 
-# This code is for running the RAG for all 500 elements of the Dataframe
+# This code is for running the RAG for all 50 elements of the Dataframe
+
+results =[]
+
 for index,row in df.iterrows():
     github_api_url = row['github_api_url']
     problem_statement = row['problem_statement']
@@ -134,5 +138,15 @@ for index,row in df.iterrows():
     best_match_file = similarity_search(problem_statement, github_files)
 
     print(f"Most relevant file: {best_match_file}")
-    print(f"Patch file: {row['patch_file']}")
+    print(f"Patch file: {row['patch_files']}")
     print("-" * 50)
+
+    results.append({
+        "github_api_url": row["github_api_url"],
+        "problem_statement": row["problem_statement"],
+        "best_match_file": best_match_file,
+        "patch_files": row["patch_files"]
+    })
+
+df_results = pd.DataFrame(results)
+df_results.to_csv('RAG_results.csv', index=False)
