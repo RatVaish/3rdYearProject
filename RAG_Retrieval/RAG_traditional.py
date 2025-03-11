@@ -44,7 +44,7 @@ def extract_github_files(github_api_url):
         files_content = {}
         with tarfile.open(fileobj=io.BytesIO(response.content), mode="r:gz") as tar:
             for member in tar.getmembers():
-                if member.isfile():
+                if member.isfile() and member.name.endswith(".py"):
                     try:
                         file_content = tar.extractfile(member).read().decode("utf-8")
                         files_content[member.name] = file_content
