@@ -149,4 +149,4 @@ for index,row in df.iterrows():
     })
 
 df_results = pd.DataFrame(results)
-df_results.to_csv('RAG_results_v1.csv', index=False)
+df_results.to_csv('RAG_results_v2.csv', index=False)

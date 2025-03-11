@@ -46,7 +46,7 @@ setuptools: 40.8.0
     Cython: 0.29.6
     pandas: 0.24.1
 ```
-",scikit-learn-scikit-learn-a62775e/doc/whats_new/v0.17.rst,['sklearn/pipeline.py']
+",scikit-learn-scikit-learn-a62775e/sklearn/__init__.py,['sklearn/pipeline.py']
 https://api.github.com/repos/django/django/tarball/e8fcdaad5c428878d0a5d6ba820d957013f75595,"docutils reports an error rendering view docstring when the first line is not empty
 Description
 	
@@ -65,7 +65,7 @@ The problem is that the indentation of the first line is 0.
 The solution is to skip the first line:
 indent = min(len(line) - len(line.lstrip()) for line in lines[1:] if line.lstrip())
 Thanks.
-",django-django-e8fcdaa/docs/releases/1.4.7.txt,"['django/contrib/admindocs/utils.py', 'django/contrib/admindocs/views.py']"
+",django-django-e8fcdaa/tests/i18n/commands/__init__.py,"['django/contrib/admindocs/utils.py', 'django/contrib/admindocs/views.py']"
 https://api.github.com/repos/scikit-learn/scikit-learn/tarball/f7eea978097085a6781a0e92fc14ba7712a52d75,"IterativeImputer has no parameter ""fill_value""
 ### Describe the workflow you want to enable
 
@@ -102,7 +102,7 @@ Description
 	
 In d4fff711d4c97356bd6ba1273d2a5e349326eb5f (#31274) we've changed format for session data, that's why setting DEFAULT_HASHING_ALGORITHM to 'sha1' is not enough to support running multiple instances of the same project during the transition to Django 3.1.
 We could use the legacy encode() when DEFAULT_HASHING_ALGORITHM == 'sha1' (it's a bit hacky).
-",django-django-6e9c5ee/docs/releases/1.8.11.txt,['django/contrib/sessions/backends/base.py']
+",django-django-6e9c5ee/tests/urls.py,['django/contrib/sessions/backends/base.py']
 https://api.github.com/repos/sphinx-doc/sphinx/tarball/212fd67b9f0b4fae6a7c3501fdf1a9a5b2801329,"The default value for positional only argument has vanished
 **Describe the bug**
 The default value for positional only argument has vanished
@@ -132,7 +132,7 @@ No.
 
 **Additional context**
 No
-",sphinx-doc-sphinx-212fd67/.github/ISSUE_TEMPLATE/bug_report.md,['sphinx/util/inspect.py']
+",sphinx-doc-sphinx-212fd67/sphinx/writers/texinfo.py,['sphinx/util/inspect.py']
 https://api.github.com/repos/scikit-learn/scikit-learn/tarball/10dbc142bd17ccf7bd38eec2ac04b52ce0d1009e,"Unable to pass splits to SequentialFeatureSelector
 ### Describe the bug
 
@@ -221,7 +221,7 @@ php (version 7.4):
 echo date(""y"", strtotime(""0123-04-05 06:07:00""))
 23
 I have a pull-request ready for this: ​https://github.com/django/django/pull/13614
-",django-django-c448e61/django/contrib/admindocs/locale/ru/LC_MESSAGES/django.po,['django/utils/dateformat.py']
+",django-django-c448e61/django/conf/locale/es_AR/formats.py,['django/utils/dateformat.py']
 https://api.github.com/repos/django/django/tarball/84633905273fc916e3d17883810d9969c03f73c2,"Cannot override get_FOO_display() in Django 2.2+.
 Description
 	
@@ -383,7 +383,7 @@ import scipy; print(""Scipy"", scipy.__version__)
 import matplotlib; print(""Matplotlib"", matplotlib.__version__)
 -->
 
-",astropy-astropy-cdb6605/.github/ISSUE_TEMPLATE/bug_report.md,['astropy/io/fits/connect.py']
+",astropy-astropy-cdb6605/astropy/utils/iers/tests/test_leap_second.py,['astropy/io/fits/connect.py']
 https://api.github.com/repos/django/django/tarball/859a87d873ce7152af73ab851653b4e1c3ffea4c,"has_key, has_keys, and has_any_keys JSONField() lookups don't handle numeric keys on SQLite, MySQL, and Oracle.
 Description
 	 
@@ -495,7 +495,7 @@ No warnings, and the two mentioned types should resolve to ``mod.submod.A``.
 
 **Environment info**
 - Sphinx version: tested both with v3.3 and with master
-",sphinx-doc-sphinx-57ed10c/tests/roots/test-root/objects.txt,"['sphinx/domains/python.py', 'sphinx/util/docfields.py']"
+",sphinx-doc-sphinx-57ed10c/sphinx/builders/latex/constants.py,"['sphinx/domains/python.py', 'sphinx/util/docfields.py']"
 https://api.github.com/repos/django/django/tarball/fa5e7e46d875d4143510944f19d79df7b1739bab,"Using SimpleLazyObject with a nested subquery annotation fails.
 Description
 	 
@@ -605,7 +605,7 @@ setuptools: 41.0.1
     Cython: None
     pandas: 0.24.2
 ```
-",scikit-learn-scikit-learn-06632c0/doc/whats_new/v0.17.rst,['sklearn/model_selection/_split.py']
+",scikit-learn-scikit-learn-06632c0/sklearn/__init__.py,['sklearn/model_selection/_split.py']
 https://api.github.com/repos/sphinx-doc/sphinx/tarball/6cb783c0024a873722952a67ebb9f41771c8eb6d,"source-read event does not modify include'd files source
 ### Describe the bug
 
@@ -856,7 +856,7 @@ _No response_
 ### Additional context
 
 _No response_
-",sphinx-doc-sphinx-6cb783c/doc/usage/installation.rst,['sphinx/directives/other.py']
+",sphinx-doc-sphinx-6cb783c/sphinx/util/cfamily.py,['sphinx/directives/other.py']
 https://api.github.com/repos/sympy/sympy/tarball/e8c22f6eac7314be8d92590bfff92ced79ee03e2,"collect_factor_and_dimension does not detect equivalent dimensions in addition
 Code to reproduce:
 ```python
@@ -941,7 +941,7 @@ Bisected to #5692 - which probably does not help too much.
 
 </details>
 
-",pydata-xarray-45c0a11/doc/getting-started-guide/faq.rst,"['xarray/core/dataset.py', 'xarray/core/indexes.py']"
+",pydata-xarray-45c0a11/doc/gallery/plot_cartopy_facetgrid.py,"['xarray/core/dataset.py', 'xarray/core/indexes.py']"
 https://api.github.com/repos/sphinx-doc/sphinx/tarball/b19bce971e82f2497d67fdacdeca8db08ae0ba56,"autodoc: empty __all__ attribute is ignored
 **Describe the bug**
 autodoc: empty `__all__` attribute is ignored
@@ -989,7 +989,7 @@ No
 
 **Additional context**
 No
-",sphinx-doc-sphinx-b19bce9/sphinx/texinputs/sphinxhowto.cls,['sphinx/ext/autodoc/__init__.py']
+",sphinx-doc-sphinx-b19bce9/sphinx/writers/texinfo.py,['sphinx/ext/autodoc/__init__.py']
 https://api.github.com/repos/sympy/sympy/tarball/10de1a18a0efac0b19b611e40c928250dda688bf,"bug with HNF removing rows
 I expect
 `np.flip (hermite_normal_form (Matrix (np.flip (np.array ([[5, 8, 12], [0, 0, 1]]))).T).T))`
@@ -1027,7 +1027,7 @@ Currently, Text objects always retrieve their antialiasing state via the global 
 Add similar getters/setters on Text objects (also adjusting Annotations accordingly, if needed) and use that info in the drawing stage.
 
 Should be relatively easy to implement, except that the slight fiddling needed with backends requires some understanding of backend code (I think we need to replace the access to `rcParams[""text.antialiased""]` by going through the GraphicsContext state).
-",matplotlib-matplotlib-26224d9/doc/api/prev_api_changes/api_changes_3.6.1.rst,"['lib/matplotlib/text.py', 'lib/matplotlib/backends/backend_cairo.py', 'lib/matplotlib/backends/backend_agg.py']"
+",matplotlib-matplotlib-26224d9/galleries/examples/text_labels_and_annotations/font_file.py,"['lib/matplotlib/text.py', 'lib/matplotlib/backends/backend_cairo.py', 'lib/matplotlib/backends/backend_agg.py']"
 https://api.github.com/repos/scikit-learn/scikit-learn/tarball/a7b8b9e9e16d4e15fabda5ae615086c2e1c47d8a,"LassoLarsIC: unintuitive copy_X behaviour
 Hi, I would like to report what seems to be a bug in the treatment of the `copy_X` parameter of the `LassoLarsIC` class. Because it's a simple bug, it's much easier to see in the code directly than in the execution, so I am not posting steps to reproduce it.
 
@@ -1040,7 +1040,7 @@ However, it also takes a copy_X parameter a few lines below, in the definition o
 Now there are two values (potentially contradicting each other) for copy_X and each one is used once. Therefore ```fit``` can have a mixed behaviour. Even worse, this can be completely invisible to the user, since copy_X has a default value of True. Let's assume that I'd like it to be False, and have set it to False in the initialization, `my_lasso = LassoLarsIC(copy_X=False)`. I then call ```my_lasso.fit(X, y)``` and my choice will be silently overwritten. 
 
 Ideally I think that copy_X should be removed as an argument in ```fit```. No other estimator seems to have a duplication in class parameters and fit arguments (I've checked more than ten in the linear models module). However, this would break existing code. Therefore I propose that ```fit``` takes a default value of `None` and only overwrites the existing value if the user has explicitly passed it as an argument to ```fit```. I will submit a PR to that effect.
-",scikit-learn-scikit-learn-a7b8b9e/doc/modules/learning_curve.rst,['sklearn/linear_model/least_angle.py']
+",scikit-learn-scikit-learn-a7b8b9e/examples/calibration/plot_calibration_multiclass.py,['sklearn/linear_model/least_angle.py']
 https://api.github.com/repos/django/django/tarball/69331bb851c34f05bc77e9fc24020fe6908b9cd5,"Custom template tags raise TemplateSyntaxError when keyword-only arguments with defaults are provided.
 Description
 	 
@@ -1062,7 +1062,7 @@ Raises “'hi' received unexpected keyword argument 'greeting'”
 instead of ""'hi' received multiple values for keyword argument 'greeting'""
 Same goes for inclusion tags (is the same code) I already have a fix ready, will push it after creating the ticket (that I have a ticket# for the commit).
 Is actually for all versions since the offending line is from 2.0…
-",django-django-69331bb/docs/releases/1.4.7.txt,['django/template/library.py']
+",django-django-69331bb/tests/i18n/commands/__init__.py,['django/template/library.py']
 https://api.github.com/repos/sympy/sympy/tarball/58e78209c8577b9890e957b624466e5beed7eb08,"Exception when multiplying BlockMatrix containing ZeroMatrix blocks
 When a block matrix with zero blocks is defined
 
@@ -1162,7 +1162,7 @@ Category.objects.prefetch_related(Prefetch(
 This behavior is also mentioned in ​this StackOverflow answer. On the other hand it does not seem to be documented in Django Docs.
 Why is it needed?
 My use case seems to be a common one: I want to display a list of categories while displaying couple of example objects from each category next to it. If I'm not mistaken there isn't currently an efficient way of doing this. Prefetching without slicing would prefetch all objects (and there may be thousands of them) instead of the three examples that are needed.
-",django-django-f387d02/docs/releases/2.2.9.txt,['django/db/models/fields/related_descriptors.py']
+",django-django-f387d02/tests/m2m_recursive/models.py,['django/db/models/fields/related_descriptors.py']
 https://api.github.com/repos/django/django/tarball/7af8f4127397279d19ef7c7899e93018274e2f9b,"QuerySet.none() on combined queries returns all results.
 Description
 	
@@ -1189,7 +1189,7 @@ publications = forms.ModelMultipleChoiceField(
 	required=False,
 )
 The form correctly shows only the matching objects. However, if you submit this form while empty (i.e. you didn't select any publications), ALL objects matching the queryset will be added. Using the OR query, NO objects are added, as I'd expect.
-",django-django-7af8f41/docs/ref/settings.txt,['django/db/models/sql/query.py']
+",django-django-7af8f41/tests/test_client/tests.py,['django/db/models/sql/query.py']
 https://api.github.com/repos/pytest-dev/pytest/tarball/cb828ebe70b4fa35cd5f9a7ee024272237eab351,"ValueError when collecting tests that patch an array 
 <!--
 Thanks for submitting an issue!
@@ -1233,7 +1233,7 @@ Seems like a bug, that was introduced by the following fix:
 https://github.com/pytest-dev/pytest/commit/b6166dccb4d2b48173aa7e7739be52db9d2d56a0
 
 when using @patch like: @patch(target='XXXXXX', new=np.array([-5.5, 3.0])), p.new is an array and the check: ""p.new in sentinels"" returns an array of booleans instead of a boolean which causes the ValueError.
-",pytest-dev-pytest-cb828eb/doc/en/assert.rst,['src/_pytest/compat.py']
+",pytest-dev-pytest-cb828eb/src/_pytest/junitxml.py,['src/_pytest/compat.py']
 https://api.github.com/repos/sympy/sympy/tarball/c0e85160406f9bf2bcaa2992138587668a1cd0bc,"Result from clear_denoms() prints like zero poly but behaves wierdly (due to unstripped DMP)
 The was the immediate cause of the ZeroDivisionError in #17990.
 
@@ -1347,7 +1347,7 @@ This is the underlying cause for the problems mentioned in #5764.
 
 The call goes through fine if `lexer` is changed from `python3` to `text`. This would seem like the right thing to do in any case: the console output of a `pytest` run that is being uploaded is not Python code, but arbitrary text.
 
-",pytest-dev-pytest-8aba863/doc/en/monkeypatch.rst,['src/_pytest/pastebin.py']
+",pytest-dev-pytest-8aba863/src/_pytest/cacheprovider.py,['src/_pytest/pastebin.py']
 https://api.github.com/repos/sympy/sympy/tarball/1659712001810f5fc563a443949f8e3bb38af4bd,"Matrix determinant raises Invalid NaN comparison with particular symbolic entries
     >>> from sympy import *
     >>> from sympy.abc import a
@@ -1416,7 +1416,7 @@ Description
 	
 A RenameModel operation that already has db_table defined must be a noop.
 In Postgres, it drops and recreates foreign key constraints. In sqlite it recreates the table (as expected for a table renaming).
-",django-django-a754b82/docs/releases/1.11.29.txt,['django/db/migrations/operations/models.py']
+",django-django-a754b82/django/__main__.py,['django/db/migrations/operations/models.py']
 https://api.github.com/repos/astropy/astropy/tarball/6ed769d58d89380ebaa1ef52b300691eefda8928,"Consider removing auto-transform of structured column into NdarrayMixin
 <!-- This comments are hidden when you submit the issue,
 so you do not need to remove them! -->
@@ -1455,7 +1455,7 @@ Proposal:
 This is not critical for 5.1 but if we have the opportunity due to other (critical) bugfixes it might be nice to save 6 months in the change process.
 
 cc: @mhvk
-",astropy-astropy-6ed769d/.github/ISSUE_TEMPLATE/bug_report.md,['astropy/table/table.py']
+",astropy-astropy-6ed769d/examples/template/example-template.py,['astropy/table/table.py']
 https://api.github.com/repos/pytest-dev/pytest/tarball/58e6a09db49f34886ff13f3b7520dd0bcd7063cd,"_pytest.capture.EncodedFile mode should not include `b` (binary)
 <!--
 Thanks for submitting an issue!
@@ -1558,7 +1558,7 @@ def test_foo():
     youtube_dl.YoutubeDL().extract_info('http://example.com/')
 ```
 
-",pytest-dev-pytest-58e6a09/doc/en/tmpdir.rst,['src/_pytest/capture.py']
+",pytest-dev-pytest-58e6a09/testing/test_assertion.py,['src/_pytest/capture.py']
 https://api.github.com/repos/sphinx-doc/sphinx/tarball/21698c14461d27933864d73e6fba568a154e83b3,"kbd role produces incorrect HTML when compound-key separators (-, + or ^) are used as keystrokes
 **Describe the bug**
 
@@ -1614,7 +1614,7 @@ For compound-keystrokes, the algorithm should differentiate between `-`, `+` and
 - Sphinx extensions:  -
 - Extra tools: -
 
-",sphinx-doc-sphinx-21698c1/sphinx/texinputs/Makefile_t,['sphinx/builders/html/transforms.py']
+",sphinx-doc-sphinx-21698c1/sphinx/builders/latex/constants.py,['sphinx/builders/html/transforms.py']
 https://api.github.com/repos/django/django/tarball/b93a0e34d9b9b99d41103782b7e7aeabf47517e3,"Query.resolve_lookup_value coerces value of type list to tuple
 Description
 	
@@ -1659,7 +1659,7 @@ two-digit year, MUST interpret a timestamp that appears to be more
 than 50 years in the future as representing the most recent year in
 the past that had the same last two digits.
 Current logic is hard coded to consider 0-69 to be in 2000-2069, and 70-99 to be 1970-1999, instead of comparing versus the current year.
-",django-django-f0adf3b/docs/releases/1.3.4.txt,['django/utils/http.py']
+",django-django-f0adf3b/django/contrib/gis/geoip2/__init__.py,['django/utils/http.py']
 https://api.github.com/repos/sphinx-doc/sphinx/tarball/cab2d93076d0cca7c53fac885f927dde3e2a5fec,"Message.locations duplicate unnecessary
 ### Describe the bug
 
@@ -1795,7 +1795,7 @@ _No response_
 ### Additional context
 
 _No response_
-",sphinx-doc-sphinx-cab2d93/tests/roots/test-intl/xx/LC_MESSAGES/definition_terms.po,['sphinx/builders/gettext.py']
+",sphinx-doc-sphinx-cab2d93/sphinx/builders/latex/constants.py,['sphinx/builders/gettext.py']
 https://api.github.com/repos/django/django/tarball/f83b44075dafa429d59e8755aa47e15577cc49f9,"DecimalField.to_python() raises TypeError on dict values.
 Description
 	
@@ -1827,7 +1827,7 @@ def _lambdifygenerated(x, y):
 def _lambdifygenerated(x, y):
     return (-x % y)
 ```
-",sympy-sympy-3f8c8c2/bin/test_import,"['sympy/printing/codeprinter.py', 'sympy/printing/precedence.py']"
+",sympy-sympy-3f8c8c2/bin/authors_update.py,"['sympy/printing/codeprinter.py', 'sympy/printing/precedence.py']"
 https://api.github.com/repos/django/django/tarball/0ab58c120939093fea90822f376e1866fc714d1f,"Adding nullable OneToOneField crashes on SQLite.
 Description
 	
@@ -1869,7 +1869,7 @@ response = HttpResponse(memoryview(b""My Content""))
 response.content
 # Out: b'<memory at 0x7fcc47ab2648>'
 # This is not correct, I am expecting b'My Content'
-",django-django-879cc3d/docs/Makefile,['django/http/response.py']
+",django-django-879cc3d/django/db/models/sql/constants.py,['django/http/response.py']
 https://api.github.com/repos/django/django/tarball/927c903f3cd25c817c21738328b53991c035b415,"Resetting primary key for a child model doesn't work.
 Description
 	
@@ -1937,7 +1937,7 @@ array([[ True,  True, False, False],
 Suddenly the inputs and outputs are no longer separable?
 
 This feels like a bug to me, but I might be missing something?
-",astropy-astropy-d16bfe0/docs/stats/index.rst,['astropy/modeling/separable.py']
+",astropy-astropy-d16bfe0/astropy/cosmology/tests/test_core.py,['astropy/modeling/separable.py']
 https://api.github.com/repos/astropy/astropy/tarball/fa4e8d1cd279acf9b24560813c8652494ccd5922,"Incorrect units read from MRT (CDS format) files with astropy.table
 ### Description
 
@@ -2008,7 +2008,7 @@ astropy 5.2.1
 
 ```
 
-",astropy-astropy-fa4e8d1/docs/io/ascii/fixed_width_gallery.rst,"['astropy/units/format/cds.py', 'astropy/units/format/cds_parsetab.py']"
+",astropy-astropy-fa4e8d1/astropy/cosmology/parameters.py,"['astropy/units/format/cds.py', 'astropy/units/format/cds_parsetab.py']"
 https://api.github.com/repos/sphinx-doc/sphinx/tarball/8ec06e9a1bd862cd713b9db748e039ccc7b3e15b,"Python Enum values (used to show default values in function signatures) are rendered ugly.
 Python Enum values (used to show default values in function signatures) are rendered ugly.
 
@@ -2041,7 +2041,7 @@ Unfortunately, it renders as:
 - Sphinx version: 4.0.2
 - Sphinx extensions: autodoc
 
-",sphinx-doc-sphinx-8ec06e9/sphinx/texinputs/sphinxhowto.cls,['sphinx/util/inspect.py']
+",sphinx-doc-sphinx-8ec06e9/tests/test_util_inventory.py,['sphinx/util/inspect.py']
 https://api.github.com/repos/django/django/tarball/b9cf764be62e77b4777b3a75ec256f6209a57671,"Make URLValidator reject invalid characters in the username and password
 Description
 	 
@@ -2060,4 +2060,4 @@ Since #20003, core.validators.URLValidator accepts URLs with usernames and passw
 An example URL that should be invalid is http://foo/bar@example.com; furthermore, many of the test cases in tests/validators/invalid_urls.txt would be rendered valid under the current implementation by appending a query string of the form ?m=foo@example.com to them.
 I note Tim Graham's concern about adding complexity to the validation regex. However, I take the opposite position to Danilo Bargen about invalid URL edge cases: it's not fine if invalid URLs (even so-called ""edge cases"") are accepted when the regex could be fixed simply to reject them correctly. I also note that a URL of the form above was encountered in a production setting, so that this is a genuine use case, not merely an academic exercise.
 Pull request: ​https://github.com/django/django/pull/10097
-",django-django-b9cf764/docs/releases/1.4.2.txt,['django/core/validators.py']
+",django-django-b9cf764/django/utils/cache.py,['django/core/validators.py']
